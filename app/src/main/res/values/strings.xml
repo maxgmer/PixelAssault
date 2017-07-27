@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">Pixel Assault</string>
+    <string name="mapBuilder_error_no_way_to_finish">MONSTERS WOULD NOT FIND THE WAY!</string>
+    <string name="map_builder_error_cell_busy">The cell is busy</string>
+    <string name="map_builder_button_error_mobs_on_map_1">There are monsters on the map!</string>
+    <string name="map_builder_button_error_mobs_on_map_2">Please click on the portal to disable spawning</string>
+    <string name="account_stats_nickname">Nickname:</string>
+    <string name="account_stats_header">Account Info</string>
+    <string name="account_stats_currentLevel">Current level:</string>
+    <string name="account_stats_expToLvl">Exp left:</string>
+    <string name="account_stats_portalPower">Portal Power:</string>
+    <string name="account_stats_monstersKilled">Monsters killed:</string>
+</resources>
