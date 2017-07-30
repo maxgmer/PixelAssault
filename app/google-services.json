@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "899536043339",
+    "firebase_url": "https://pixel-assault-577a7.firebaseio.com",
+    "project_id": "pixel-assault-577a7",
+    "storage_bucket": "pixel-assault-577a7.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:899536043339:android:73a1c5437eb14107",
+        "android_client_info": {
+          "package_name": "com.brothergamecompany.pixelassault"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "899536043339-bq1q91knduaqfeu42802eru4r309jr0a.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.brothergamecompany.pixelassault",
+            "certificate_hash": "a8d17f65be358e02b2bacd7f4873fa218ebec373"
+          }
+        },
+        {
+          "client_id": "899536043339-hofppu5352snhls89iv3btr35lec9814.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAoIxjbolcIYQjBpWgxp-L6E_KSji0qo0w"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "899536043339-hofppu5352snhls89iv3btr35lec9814.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

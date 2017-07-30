@@ -7,6 +7,7 @@ import android.app.Activity;
 import android.opengl.GLSurfaceView;
 import android.opengl.GLSurfaceView.Renderer;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Window;
 import android.view.WindowManager;
 
@@ -18,7 +19,7 @@ import com.brothergamecompany.pixelassault.framework.Input;
 import com.brothergamecompany.pixelassault.framework.Screen;
 
 
-public abstract class GLGame extends Activity implements Game, Renderer {
+public abstract class GLGame extends AppCompatActivity implements Game, Renderer {
     enum GLGameState {
         Initialized,
         Running,
