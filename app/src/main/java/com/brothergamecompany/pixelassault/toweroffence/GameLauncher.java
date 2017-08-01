@@ -55,7 +55,7 @@ public class GameLauncher extends GLGame{
     private boolean firstTimeCreate = true;
     private ScaleGestureDetector mScaleDetector;
     private GestureDetectorCompat mGestureDetector;
-    private SignIn signIn;
+    public static SignIn signIn;
 
     @Override
     public Screen getStartScreen() {

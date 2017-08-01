@@ -10,4 +10,7 @@
     <string name="account_stats_expToLvl">Exp left:</string>
     <string name="account_stats_portalPower">Portal Power:</string>
     <string name="account_stats_monstersKilled">Monsters killed:</string>
+    <string name="connection_failed">Authentication failed</string>
+    <string name="authentication">Authentication</string>
+    <string name="failed">failed</string>
 </resources>

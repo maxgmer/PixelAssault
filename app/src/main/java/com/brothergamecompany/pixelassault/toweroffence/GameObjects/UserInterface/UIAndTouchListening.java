@@ -4,6 +4,7 @@ package com.brothergamecompany.pixelassault.toweroffence.GameObjects.UserInterfa
 import android.content.Context;
 
 import com.brothergamecompany.pixelassault.R;
+import com.brothergamecompany.pixelassault.framework.Game;
 import com.brothergamecompany.pixelassault.framework.Input;
 import com.brothergamecompany.pixelassault.framework.gl.Animation;
 import com.brothergamecompany.pixelassault.framework.gl.Camera2D;
@@ -14,6 +15,7 @@ import com.brothergamecompany.pixelassault.framework.impl.GLGraphics;
 import com.brothergamecompany.pixelassault.framework.math.OverlapTester;
 import com.brothergamecompany.pixelassault.framework.math.Rectangle;
 import com.brothergamecompany.pixelassault.framework.math.Vector2;
+import com.brothergamecompany.pixelassault.toweroffence.GameLauncher;
 import com.brothergamecompany.pixelassault.toweroffence.GameObjects.MapBuilder;
 import com.brothergamecompany.pixelassault.toweroffence.GameObjects.World.World;
 import com.brothergamecompany.pixelassault.toweroffence.GameObjects.World.WorldObjects.Monster;
@@ -21,11 +23,14 @@ import com.brothergamecompany.pixelassault.toweroffence.GameObjects.World.WorldR
 import com.brothergamecompany.pixelassault.toweroffence.Other.Assets.Assets;
 import com.brothergamecompany.pixelassault.toweroffence.Other.Font;
 import com.brothergamecompany.pixelassault.toweroffence.Other.Network.Account;
+import com.brothergamecompany.pixelassault.toweroffence.Other.Network.SignIn;
 import com.brothergamecompany.pixelassault.toweroffence.Other.Notifications.NotificationManager;
 
 import java.util.List;
 
 import javax.microedition.khronos.opengles.GL10;
+
+import static com.brothergamecompany.pixelassault.toweroffence.Other.Assets.Assets.font;
 
 /**
  * Created by maxgm_umv4xdu on 07.07.2017.
@@ -63,7 +68,8 @@ public class UIAndTouchListening {
     private final Rectangle shopConsumablesTab;
     private final Rectangle shopDecorationsTab;
     private final Rectangle accountStats;
-    Rectangle shopNextPageTab;
+
+    private Rectangle refreshButtonAuthFailed;
     private final MapBuilder mapBuilder;
     private static boolean spawnButtonPressed = false;
     private static boolean arrowUpButtonPressed = false;
@@ -93,6 +99,7 @@ public class UIAndTouchListening {
         shopConsumablesTab = new Rectangle(258, 279, 102, 147);
         shopDecorationsTab = new Rectangle(258, 132, 102, 147);
         mapBuilderButton = new Rectangle(1140, 0, 140, 140);
+        refreshButtonAuthFailed = new Rectangle(540, 210, 100, 100);
         monsterForButton = new Monster(80, 280, UIData.monsterLevel);
         this.mapBuilder = mapBuilder;
     }
@@ -132,21 +139,21 @@ public class UIAndTouchListening {
     private void drawAccountStatsGameState() {
         drawUsualGameState();
         batcher.drawSprite(640, 360, 640, 480, Assets.accountStatsInfo);
-        Assets.font.drawColoredText(coloredBatcher, (glGame).getResources().getString(R.string.account_stats_header), 490, 530, 0.3f, 0.3f, 0.3f, 1, 22, 28.6f);
-        Assets.font.drawColoredText(coloredBatcher, (glGame).getResources().getString(R.string.account_stats_nickname), 370, 460, 0.3f, 0.3f, 0.3f, 1, 17, 22.1f);
-        Assets.font.drawColoredText(coloredBatcher, Account.nickname, 930 - (Account.nickname.length() * (17 + Font.spaceBetweenLetters)), 460, 0.3f, 0.3f, 0.3f, 1, 17, 22.1f);
+        font.drawColoredText(coloredBatcher, (glGame).getResources().getString(R.string.account_stats_header), 490, 530, 0.3f, 0.3f, 0.3f, 1, 22, 28.6f);
+        font.drawColoredText(coloredBatcher, (glGame).getResources().getString(R.string.account_stats_nickname), 370, 460, 0.3f, 0.3f, 0.3f, 1, 17, 22.1f);
+        font.drawColoredText(coloredBatcher, Account.nickname, 930 - (Account.nickname.length() * (17 + Font.spaceBetweenLetters)), 460, 0.3f, 0.3f, 0.3f, 1, 17, 22.1f);
 
-        Assets.font.drawColoredText(coloredBatcher, (glGame).getResources().getString(R.string.account_stats_currentLevel), 370, 410, 0.3f, 0.3f, 0.3f, 1, 17, 22.1f);
-        Assets.font.drawColoredText(coloredBatcher, String.valueOf(Account.currentLevel), 930 - (String.valueOf(Account.currentLevel).length() * (17 + Font.spaceBetweenLetters)), 410, 0.3f, 0.3f, 0.3f, 1, 17, 22.1f);
+        font.drawColoredText(coloredBatcher, (glGame).getResources().getString(R.string.account_stats_currentLevel), 370, 410, 0.3f, 0.3f, 0.3f, 1, 17, 22.1f);
+        font.drawColoredText(coloredBatcher, String.valueOf(Account.currentLevel), 930 - (String.valueOf(Account.currentLevel).length() * (17 + Font.spaceBetweenLetters)), 410, 0.3f, 0.3f, 0.3f, 1, 17, 22.1f);
 
-        Assets.font.drawColoredText(coloredBatcher, (glGame).getResources().getString(R.string.account_stats_expToLvl), 370, 360, 0.3f, 0.3f, 0.3f, 1, 17, 22.1f);
-        Assets.font.drawColoredText(coloredBatcher, String.valueOf(Account.getMaxLvlExp() - Account.currentExp), 930 - (String.valueOf(Account.getMaxLvlExp() - Account.currentExp).length() * (17 + Font.spaceBetweenLetters)), 360, 0.3f, 0.3f, 0.3f, 1, 17, 22.1f);
+        font.drawColoredText(coloredBatcher, (glGame).getResources().getString(R.string.account_stats_expToLvl), 370, 360, 0.3f, 0.3f, 0.3f, 1, 17, 22.1f);
+        font.drawColoredText(coloredBatcher, String.valueOf(Account.getMaxLvlExp() - Account.currentExp), 930 - (String.valueOf(Account.getMaxLvlExp() - Account.currentExp).length() * (17 + Font.spaceBetweenLetters)), 360, 0.3f, 0.3f, 0.3f, 1, 17, 22.1f);
 
-        Assets.font.drawColoredText(coloredBatcher, (glGame).getResources().getString(R.string.account_stats_portalPower), 370, 310, 0.3f, 0.3f, 0.3f, 1, 17, 22.1f);
-        Assets.font.drawColoredText(coloredBatcher, String.valueOf(Account.spawnPortalPower), 930 - (String.valueOf(Account.spawnPortalPower).length() * (17 + Font.spaceBetweenLetters)), 310, 0.3f, 0.3f, 0.3f, 1, 17, 22.1f);
+        font.drawColoredText(coloredBatcher, (glGame).getResources().getString(R.string.account_stats_portalPower), 370, 310, 0.3f, 0.3f, 0.3f, 1, 17, 22.1f);
+        font.drawColoredText(coloredBatcher, String.valueOf(Account.spawnPortalPower), 930 - (String.valueOf(Account.spawnPortalPower).length() * (17 + Font.spaceBetweenLetters)), 310, 0.3f, 0.3f, 0.3f, 1, 17, 22.1f);
 
-        Assets.font.drawColoredText(coloredBatcher, (glGame).getResources().getString(R.string.account_stats_monstersKilled), 370, 260, 0.3f, 0.3f, 0.3f, 1, 17, 22.1f);
-        Assets.font.drawColoredText(coloredBatcher, String.valueOf(Account.totalMonstersKilled), 930 - (String.valueOf(Account.totalMonstersKilled).length() * (17 + Font.spaceBetweenLetters)), 260, 0.3f, 0.3f, 0.3f, 1, 17, 22.1f);
+        font.drawColoredText(coloredBatcher, (glGame).getResources().getString(R.string.account_stats_monstersKilled), 370, 260, 0.3f, 0.3f, 0.3f, 1, 17, 22.1f);
+        font.drawColoredText(coloredBatcher, String.valueOf(Account.totalMonstersKilled), 930 - (String.valueOf(Account.totalMonstersKilled).length() * (17 + Font.spaceBetweenLetters)), 260, 0.3f, 0.3f, 0.3f, 1, 17, 22.1f);
     }
 
     private void drawMapBuilderGameState() {
@@ -173,7 +180,7 @@ public class UIAndTouchListening {
 
     private void drawUsualGameState() {
         batcher.drawSprite(70, 520, 70, 70, arrowUpButtonPressed ? Assets.arrowUpPressed : Assets.arrowUp);
-        Assets.font.drawText(batcher, UIData.monsterLevel + " LVL", 30, 465, 20, 26);
+        font.drawText(batcher, UIData.monsterLevel + " LVL", 30, 465, 20, 26);
         batcher.drawSprite(70, 410, 70, -70, arrowDownButtonPressed ? Assets.arrowUpPressed : Assets.arrowUp);
         batcher.drawSprite(70, 70, -140, 140, shopButtonPressed ? Assets.triangleButtonPressed : Assets.triangleButton);
         batcher.drawSprite(1210, 70, 140, 140, mapBuilderButtonPressed ? Assets.triangleButtonPressed : Assets.triangleButton);
@@ -183,9 +190,19 @@ public class UIAndTouchListening {
         batcher.drawSprite(1210, 650, 75, 75, Assets.helpButton);
         batcher.drawSprite(640, 650, 400, 130, Assets.expBarBackground);
         float percentageOfExpBarFilled = (float) Account.currentExp / (float)Account.getMaxLvlExp();
-        float widthOfExpBarFilling = 600 * percentageOfExpBarFilled;
+        float widthOfExpBarFilling = 300 * percentageOfExpBarFilled;
         batcher.drawSprite(490 + widthOfExpBarFilling / 2, 650, widthOfExpBarFilling, 50, Assets.expBarFilling);
         batcher.drawSprite(640, 650, 320, 50, Assets.expBarFrame);
+        if (GameLauncher.signIn.notifyUser) {
+            batcher.drawSprite(640, 360, 440, 260, Assets.horizontalRectanglePane);
+            if (!GameLauncher.signIn.signInSuccessful) {
+                Font.spaceBetweenLetters = 3;
+                                                                                 //middleOfScreen - glyphWidth + spaceBetweenLetters * StringLength / 2 = text centered
+                font.drawColoredText(coloredBatcher, glGame.getString(R.string.authentication), 640 - (((15 + 3) * 14)/2), 420, 0.3f, 0.3f, 0.3f, 1, 15, 19.5f);
+                font.drawColoredText(coloredBatcher, glGame.getString(R.string.failed), 640 - (((15 + 3) * 6)/2), 390, 0.3f, 0.3f, 0.3f, 1, 15, 19.5f);
+                batcher.drawSprite(640, 310, 50, 50, Assets.refresh);
+            }
+        }
     }
 
     public void update(float deltaTime) {
@@ -235,6 +252,15 @@ public class UIAndTouchListening {
             guiCam.touchToWorld(touchPoint);
             WorldRenderer.worldCam.touchToWorld(touchPoint2);
 
+            if (GameLauncher.signIn.notifyUser) {
+                if (OverlapTester.pointInRectangle(refreshButtonAuthFailed, touchPoint)){
+                    if (touchEvent.type == Input.TouchEvent.TOUCH_UP) {
+                        //Assets.playSound(Assets.clickSound);
+                        GameLauncher.signIn.notifyUser = false;
+                        GameLauncher.signIn.signIn();
+                    }
+                }
+            }
             if (OverlapTester.pointInRectangle(World.spawnerPortal.bounds, touchPoint2)) {
                 if (touchEvent.type == Input.TouchEvent.TOUCH_UP) {
                     //Assets.playSound(Assets.portalSound);

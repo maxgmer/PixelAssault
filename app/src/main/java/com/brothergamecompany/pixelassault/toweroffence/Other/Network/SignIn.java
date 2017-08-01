@@ -41,6 +41,8 @@ public class SignIn implements GoogleApiClient.ConnectionCallbacks, GoogleApiCli
     private static boolean mResolvingError = false;
     private FirebaseAuth mAuth;
     private FirebaseUser currentUser;
+    public boolean signInSuccessful = false;
+    public boolean notifyUser = false;
 
     private static final String STATE_RESOLVING_ERROR = "resolving_error";
     private static final String DIALOG_ERROR = "dialog_error";
@@ -77,7 +79,7 @@ public class SignIn implements GoogleApiClient.ConnectionCallbacks, GoogleApiCli
         signIn();
     }
 
-    private void signIn() {
+    public void signIn() {
         Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
         context.startActivityForResult(signInIntent, RC_SIGN_IN);
     }
@@ -126,7 +128,8 @@ public class SignIn implements GoogleApiClient.ConnectionCallbacks, GoogleApiCli
             } else {
                 // Google Sign In failed, update UI appropriately
                 // ...
-                Toast.makeText(context, "SIGN IN FAIL1", Toast.LENGTH_SHORT).show();
+                signInSuccessful = false;
+                notifyUser = true;
             }
         }
     }
@@ -140,10 +143,7 @@ public class SignIn implements GoogleApiClient.ConnectionCallbacks, GoogleApiCli
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             currentUser = mAuth.getCurrentUser();
-                            Toast.makeText(context, "SIGN IN SUCCESS", Toast.LENGTH_SHORT).show();
-                        } else {
-                            // If sign in fails, display a message to the user.
-                            Toast.makeText(context, "SIGN IN FAIL2", Toast.LENGTH_SHORT).show();
+                            signInSuccessful = true;
                         }
                     }
                 });

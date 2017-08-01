@@ -10,6 +10,7 @@ import com.brothergamecompany.pixelassault.toweroffence.Other.Font;
 
 import java.util.concurrent.atomic.AtomicReference;
 
+import static android.R.attr.y;
 import static android.R.style.Animation;
 
 /**
@@ -114,14 +115,20 @@ public class Assets {
     public static TextureRegion roundButton;
     public static TextureRegion roundButtonPressed;
     public static TextureRegion expBarBackground;
+    public static TextureRegion horizontalRectanglePane;
+    public static TextureRegion yellowRectangleButton;
+    public static TextureRegion refresh;
     public static void load(GLGame game) {
         objects = new Texture(game, "objectatlas.png");
         AssetsLoader.loadMonsters();
         AssetsLoader.loadTowers();
+        refresh = new TextureRegion(objects, 128, 256, 16, 16);
         accountStatsInfo = new TextureRegion(objects, 208, 208, 64, 48);
         roundButton = new TextureRegion(objects, 40, 160, 16, 16);
         roundButtonPressed = new TextureRegion(objects, 56, 160, 16, 16);
-        expBarFilling = new TextureRegion(objects, 112, 240, 2, 8);
+        horizontalRectanglePane = new TextureRegion(objects, 145, 240, 48, 32);
+        expBarFilling = new TextureRegion(objects, 112, 240, 1, 8);
+        yellowRectangleButton = new TextureRegion(objects, 113, 240, 16, 16);
         expBarFrame = new TextureRegion(objects, 80, 240, 32, 8);
         expBarBackground = new TextureRegion(objects, 80, 256, 48, 16);
         helpButton = new TextureRegion(objects, 32, 256, 16, 16);

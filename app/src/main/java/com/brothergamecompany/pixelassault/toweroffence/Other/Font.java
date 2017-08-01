@@ -13,8 +13,9 @@ public class Font {
     public final Texture texture;
     private final int glyphWidth;
     private final int glyphHeight;
+    public static final float DEFAULT_SPACE_BETWEEN_LETTERS = 5;
     public final TextureRegion[] glyphs = new TextureRegion[96];
-    public static final float spaceBetweenLetters = 5;
+    public static float spaceBetweenLetters = DEFAULT_SPACE_BETWEEN_LETTERS;
 
     public Font(Texture texture,
                 int offsetX, int offSetY,
