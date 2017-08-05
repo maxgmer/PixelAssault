@@ -20,6 +20,7 @@ import com.brothergamecompany.pixelassault.toweroffence.GameObjects.MapBuilder;
 import com.brothergamecompany.pixelassault.toweroffence.GameObjects.World.World;
 import com.brothergamecompany.pixelassault.toweroffence.GameObjects.World.WorldObjects.Monster;
 import com.brothergamecompany.pixelassault.toweroffence.GameObjects.World.WorldRenderer;
+import com.brothergamecompany.pixelassault.toweroffence.GameScreens.GameScreen;
 import com.brothergamecompany.pixelassault.toweroffence.Other.Assets.Assets;
 import com.brothergamecompany.pixelassault.toweroffence.Other.Font;
 import com.brothergamecompany.pixelassault.toweroffence.Other.Network.Account;
@@ -273,9 +274,7 @@ public class UIAndTouchListening {
                     //Assets.playSound(Assets.clickSound);
                     if (World.monstersSpawned.size() == 0) {
                         state = MAP_BUILDER_GAME_STATE;
-                        MapBuilder.enabled = true;
-                        WorldRenderer.stopDrawingMonsters();
-                        World.stopUpdatingMonsters();
+                        GameScreen.mapBuilder.enterMapBuilder();
                         mapBuilderButtonPressed = false;
                     }
                     else {

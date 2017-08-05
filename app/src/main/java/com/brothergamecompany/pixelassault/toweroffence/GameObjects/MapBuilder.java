@@ -1,6 +1,7 @@
 package com.brothergamecompany.pixelassault.toweroffence.GameObjects;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.brothergamecompany.pixelassault.R;
 import com.brothergamecompany.pixelassault.framework.Game;
@@ -71,30 +72,37 @@ public class MapBuilder {
 
     public MapBuilder(Game game, Camera2D guiCam, Camera2D worldCam, SpriteBatcher batcher) {
         this.worldCam = worldCam;
+        this.game = game;
+        this.guiCam = guiCam;
+        this.batcher = batcher;
         mapBuilderMove = new Rectangle(400, 80, 200, 200);
         mapBuilderDeleteAll = new Rectangle(680, 80, 200, 200);
         touchPoint = new Vector2();
         touchPoint2 = new Vector2();
-        cellContentOrder = new ArrayList<>();
-        this.game = game;
-        this.guiCam = guiCam;
-        this.batcher = batcher;
         enabled = false;
-        stateTime = 0;
+        drawCoordsForChosenCell = new Vector2();
+    }
+
+    public void enterMapBuilder() {
+        WorldRenderer.stopDrawingMonsters();
+        World.stopUpdatingMonsters();
         maelstrom = new Maelstrom();
+        cellContentOrder = new ArrayList<>();
+        enabled = true;
+        stateTime = 0;
         availableTowers = new ArrayList<>();
         availablePathTiles = new ArrayList<>();
         for (int i = 0; i < Account.path.size(); i++) {
             if (!Account.path.get(i).onMap && Account.path.get(i).type2 != Tile.TYPE_FIRST_PATH_TILE && Account.path.get(i).type2 != Tile.TYPE_LAST_PATH_TILE)
                 availablePathTiles.add(Account.path.get(i));
-            else if (Account.path.get(i).type2 == Tile.TYPE_FIRST_PATH_TILE) firstTile = Account.path.get(i);
-            else if (Account.path.get(i).type2 == Tile.TYPE_LAST_PATH_TILE) lastTile = Account.path.get(i);
+            else if (Account.path.get(i).type2 == Tile.TYPE_FIRST_PATH_TILE && !Account.path.get(i).onMap) firstTile = Account.path.get(i);
+            else if (Account.path.get(i).type2 == Tile.TYPE_LAST_PATH_TILE && !Account.path.get(i).onMap) lastTile = Account.path.get(i);
         }
         for (int i = 0; i < Account.towers.size(); i++) {
             if (!Account.towers.get(i).onMap)
                 availableTowers.add(Account.towers.get(i));
         }
-        drawCoordsForChosenCell = new Vector2();
+        enabled = true;
     }
 
     public void draw() {

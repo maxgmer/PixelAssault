@@ -34,31 +34,46 @@ public class World {
     public static boolean lastTileOnMap;
     public static List<Tower> towers;
     public World() {
-        initializeWorld();
-    }
-
-    private void initializeWorld(){
-        worldGrid = new Tile[WORLD_WIDTH][WORLD_HEIGHT];
         monsterSpawner = new MonsterSpawner();
         monstersSpawned = monsterSpawner.monsterHandler.monsters;
         spawnerPortal = new SpawnerPortal();
-        maelstrom = new Maelstrom();
         monsterPath = new ArrayList<>();
         towers = new ArrayList<>();
         path = new ArrayList<>();
+    }
+
+    public void updateMapSize() {
+        WORLD_WIDTH = Account.WORLD_WIDTH;
+        WORLD_HEIGHT = Account.WORLD_HEIGHT;
+        worldGrid = new Tile[WORLD_WIDTH][WORLD_HEIGHT];
+        fillWorldGrid();
+        insertPathToGrid();
+    }
+    public void initializeWorld(){
+        WORLD_WIDTH = Account.WORLD_WIDTH;
+        WORLD_HEIGHT = Account.WORLD_HEIGHT;
+        worldGrid = new Tile[WORLD_WIDTH][WORLD_HEIGHT];
         firstTileOnMap = false;
         lastTileOnMap = false;
+        if (maelstrom == null) maelstrom = new Maelstrom();
+        else maelstrom.updatePos();
+        path.clear();
+        towers.clear();
         for (int i = 0; i < Account.towers.size(); i++) {
             if (Account.towers.get(i).onMap) {
                 towers.add(Account.towers.get(i));
             }
         }
         for (int i = 0; i < Account.path.size(); i++) {
-            if (Account.path.get(i).onMap) {
+            Tile tile = Account.path.get(i);
+            if (tile.onMap) {
                 path.add(Account.path.get(i));
-                if (Account.path.get(i).type2 == Tile.TYPE_FIRST_PATH_TILE)
+                if (tile.type2 == Tile.TYPE_FIRST_PATH_TILE) {
                     firstTileOnMap = true;
-                if (Account.path.get(i).type2 == Tile.TYPE_LAST_PATH_TILE)
+                    Account.MOB_SPAWNER_X = tile.gridX;
+                    Account.MOB_SPAWNER_Y = tile.gridY;
+                }
+                if (tile.type2 == Tile.TYPE_LAST_PATH_TILE)
                     lastTileOnMap = true;
             }
         }

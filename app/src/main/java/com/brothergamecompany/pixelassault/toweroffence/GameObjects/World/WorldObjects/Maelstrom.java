@@ -16,6 +16,9 @@ public class Maelstrom extends GameObject {
         super(World.tileCenterCoords(Account.getLastPathPos().first), World.tileCenterCoords(Account.getLastPathPos().second), MAELSTROM_WIDTH, MAELSTROM_HEIGHT);
         angle = 0;
     }
+    public void updatePos() {
+        this.position.set(World.tileCenterCoords(Account.getLastPathPos().first), World.tileCenterCoords(Account.getLastPathPos().second));
+    }
 
     public void update(float deltaTime) {
         angle -= 180 * deltaTime;

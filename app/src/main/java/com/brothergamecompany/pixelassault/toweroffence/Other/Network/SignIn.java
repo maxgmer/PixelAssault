@@ -1,7 +1,6 @@
 package com.brothergamecompany.pixelassault.toweroffence.Other.Network;
 
 import android.app.Dialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentSender;
@@ -40,7 +39,7 @@ public class SignIn implements GoogleApiClient.ConnectionCallbacks, GoogleApiCli
     private GoogleSignInOptions gso;
     private static boolean mResolvingError = false;
     private FirebaseAuth mAuth;
-    private FirebaseUser currentUser;
+    public FirebaseUser currentUser;
     public boolean signInSuccessful = false;
     public boolean notifyUser = false;
 
@@ -75,7 +74,6 @@ public class SignIn implements GoogleApiClient.ConnectionCallbacks, GoogleApiCli
 
     @Override
     public void onConnected(@Nullable Bundle bundle) {
-        Toast.makeText(context, "Connected", Toast.LENGTH_LONG).show();
         signIn();
     }
 
@@ -144,6 +142,7 @@ public class SignIn implements GoogleApiClient.ConnectionCallbacks, GoogleApiCli
                             // Sign in success, update UI with the signed-in user's information
                             currentUser = mAuth.getCurrentUser();
                             signInSuccessful = true;
+                            GameLauncher.databaseReader.startDatabaseListening();
                         }
                     }
                 });

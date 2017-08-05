@@ -23,6 +23,8 @@ public class Tower extends GameObject {
     public boolean onMap;
     public List<TowerBullet> towerBullets;
     private float attackTime;
+    public int gridX;
+    public int gridY;
     public boolean selected;//если выбрать, то будет показан круг рэнджа и апгрейды.
     public static final float TOWER_WIDTH = 2.0f;
     public static final float TOWER_HEIGHT = 2.0f;
@@ -39,6 +41,16 @@ public class Tower extends GameObject {
         targetChosen = false;
         towerBullets = new ArrayList<>();
         onMap = false;
+    }
+    public void reInit(int gridX, int gridY, int towerLevel, boolean onMap) {
+        changePos(gridX, gridY);
+        this.towerLevel = towerLevel;
+        attackSpeed = TowerStats.getTowerAttackSpd(towerLevel);
+        towerDamage = TowerStats.getTowerDamage(towerLevel);
+        attackDelay = 1 / attackSpeed;
+        targetChosen = false;
+        towerBullets = new ArrayList<>();
+        this.onMap = onMap;
     }
 
     public void update(float deltaTime) {

@@ -111,6 +111,7 @@ public class WorldRenderer {
         for (Tile[] column : World.worldGrid) {
             for (Tile tile : column) {
                 tileTexture = Assets.tileGrass;
+                if (tile != null)
                 batcher.drawSprite(tile.position.x, tile.position.y, Tile.TILE_WIDTH, Tile.TILE_HEIGHT, tileTexture);
             }
         }

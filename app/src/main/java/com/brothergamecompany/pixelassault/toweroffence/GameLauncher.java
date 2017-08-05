@@ -24,6 +24,7 @@ import com.brothergamecompany.pixelassault.toweroffence.GameObjects.MapBuilder;
 import com.brothergamecompany.pixelassault.toweroffence.GameScreens.GameScreen;
 import com.brothergamecompany.pixelassault.toweroffence.Other.Assets.Assets;
 import com.brothergamecompany.pixelassault.toweroffence.Other.GameGestureDetector;
+import com.brothergamecompany.pixelassault.toweroffence.Other.Network.DatabaseReader;
 import com.brothergamecompany.pixelassault.toweroffence.Other.Network.SignIn;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -56,6 +57,8 @@ public class GameLauncher extends GLGame{
     private ScaleGestureDetector mScaleDetector;
     private GestureDetectorCompat mGestureDetector;
     public static SignIn signIn;
+    public static DatabaseReader databaseReader;
+    public static boolean accountLoaded = false;
 
     @Override
     public Screen getStartScreen() {
@@ -78,6 +81,7 @@ public class GameLauncher extends GLGame{
     @Override
     public void onCreate(Bundle b) {
         super.onCreate(b);
+        databaseReader = new DatabaseReader();
         signIn = new SignIn(this, b);
         GameGestureDetector gestureDetector = new GameGestureDetector(getGLGraphics());
         mGestureDetector = new GestureDetectorCompat(this, gestureDetector.simpleOnGestureListener);
