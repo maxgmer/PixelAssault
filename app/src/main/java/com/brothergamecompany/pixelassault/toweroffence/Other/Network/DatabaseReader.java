@@ -33,15 +33,14 @@ public class DatabaseReader {
     }
 
     public void startDatabaseListening() {
-        String uid = GameLauncher.signIn.currentUser.getUid();
-        Log.wtf("uid", uid);
+        final String uid = GameLauncher.signIn.currentUser.getUid();
+        Account.uid = uid;
         database = FirebaseDatabase.getInstance();
         mDatabase = database.getReference().child("Users").child(uid).child("Account");
         accountListener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 boolean mapSizeChanged = false;
-
                 AccountModel accountModel = dataSnapshot.getValue(AccountModel.class);
                 if (accountModel != null) {
                     if (Account.WORLD_WIDTH != accountModel.WORLD_WIDTH || Account.WORLD_HEIGHT != accountModel.WORLD_HEIGHT) {
@@ -64,8 +63,7 @@ public class DatabaseReader {
                             Tile tile = new Tile(tileModel.gridX, tileModel.gridY, 1, tileModel.type);
                             tile.onMap = tileModel.onMap;
                             Account.path.add(tile);
-                        }
-                        else {
+                        } else {
                             Tile tile = new Tile(tileModel.gridX, tileModel.gridY, 1);
                             tile.onMap = tileModel.onMap;
                             Account.path.add(tile);
@@ -81,15 +79,14 @@ public class DatabaseReader {
                     if (firstSync) {
                         GameScreen.world.initializeWorld();
                         firstSync = false;
+                    } else {
+                        GameScreen.world.initializeWorld();
                     }
-                    else
-                    {
-                        if (mapSizeChanged) {
-                            GameScreen.world.updateMapSize();
-                        }
-                    }
+                    GameLauncher.accountLoaded = true;
+                } else {
+                    firstSync = true;
+                    GameLauncher.httpRequestSender.sendAccountCheckProcedure();
                 }
-                GameLauncher.accountLoaded = true;
             }
             @Override
             public void onCancelled(DatabaseError databaseError) {

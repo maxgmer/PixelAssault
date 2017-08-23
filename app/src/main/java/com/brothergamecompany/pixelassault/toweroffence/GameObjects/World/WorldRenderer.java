@@ -44,9 +44,11 @@ public class WorldRenderer {
         GL10 gl = glGraphics.getGL();
         gl.glEnable(GL10.GL_BLEND);
         gl.glBlendFunc(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
-        batcher.beginBatch(Assets.objects);
-        renderWorld();
-        batcher.endBatch();
+        if (world.worldInitialized) {
+            batcher.beginBatch(Assets.objects);
+            renderWorld();
+            batcher.endBatch();
+        }
         gl.glDisable(GL10.GL_BLEND);
     }
 
@@ -73,17 +75,17 @@ public class WorldRenderer {
     }
 
     private void renderPortals() {
-        if (World.firstTileOnMap) {
-                batcher.drawSprite(World.spawnerPortal.position.x, World.spawnerPortal.position.y + Tile.TILE_HEIGHT / 2,
-                    SpawnerPortal.PORTAL_WIDTH, SpawnerPortal.PORTAL_HEIGHT,
-                    World.spawnerPortal.enabled ?
-                            Assets.portalStartEnabled.getKeyFrame(World.spawnerPortal.stateTime, Animation.ANIMATION_LOOPING):
-                Assets.portalStartDisabled.getKeyFrame(World.spawnerPortal.stateTime, Animation.ANIMATION_LOOPING));
-        }
         if (World.lastTileOnMap)
         batcher.drawSprite(World.maelstrom.position.x, World.maelstrom.position.y,
                 Maelstrom.MAELSTROM_WIDTH, Maelstrom.MAELSTROM_HEIGHT, World.maelstrom.angle,
                 Assets.maelstromEnd);
+        if (World.firstTileOnMap) {
+            batcher.drawSprite(World.spawnerPortal.position.x, World.spawnerPortal.position.y + Tile.TILE_HEIGHT / 2,
+                    SpawnerPortal.PORTAL_WIDTH, SpawnerPortal.PORTAL_HEIGHT,
+                    World.spawnerPortal.enabled ?
+                            Assets.portalStartEnabled.getKeyFrame(World.spawnerPortal.stateTime, Animation.ANIMATION_LOOPING):
+                            Assets.portalStartDisabled.getKeyFrame(World.spawnerPortal.stateTime, Animation.ANIMATION_LOOPING));
+        }
     }
 
     private void renderMonsters() {
@@ -112,7 +114,7 @@ public class WorldRenderer {
             for (Tile tile : column) {
                 tileTexture = Assets.tileGrass;
                 if (tile != null)
-                batcher.drawSprite(tile.position.x, tile.position.y, Tile.TILE_WIDTH, Tile.TILE_HEIGHT, tileTexture);
+                    batcher.drawSprite(tile.position.x, tile.position.y, Tile.TILE_WIDTH, Tile.TILE_HEIGHT, tileTexture);
             }
         }
         for (int i = 0; i < World.path.size(); i++) {

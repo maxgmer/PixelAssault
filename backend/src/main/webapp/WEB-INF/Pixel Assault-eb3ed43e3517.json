@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "pixel-assault-577a7",
+  "private_key_id": "eb3ed43e3517d512b8bec97e7934dc5205e6021e",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQC2Si+/ci3gbv4J\nqg4l+Adun3l5bNkg0Fun5gATwy33a6qP7Xn5KgMRmM9dWB9b8vWrIvyjaYtM1KMT\nPMf2BWTrnOjH6kBj23mc205Ugo970s1fMDJgooy39UCjqW+HoSUAIIiVYVx0zorc\nVWNNc9OhaLpvm+uyo70/t4CKdSxDUNlitTbsnqa8/z9f6IIOS/T9UmpZv3YIPOFs\nn/qmeNN1MfR0ISGjWv1w0SIQJa5ET/SfWcAPq2FwC9gZ3HlUla+NlU85eQsjLjWg\nxyCWd25t3gugeGC4e6a3mztFeDpkx660HosgH2l7boPPJem6mgMxh9Lcdhs7UbXg\noUMWuaktAgMBAAECggEAFJ3HUKulLKDg8k7dUsX+cTBwGJ+K3v8xnoeQsqt8Y2M1\n4xlElj1+I1tY+IGi6k9MIZLPZ9vj+UiDOQXCx7xMcalJWnLP3XtRAcB712r8t1Bc\nEcvtpqg7qgJ+0QO0rW44NQ944wwj3MIPSmQN2xCierrRexXzTjzehnpGe2JNIz+s\ntSYFjoAJYILZGjkIBaQzUu737fp2386zkC2ua/YL4jIiOanGblFYVl8F7cNCQJhA\nnZWTD7xjLRrvpgl7ruvpuSTWUDIO0TPLhe8FGp6h3XAth6rcUI9a2g6cojiIjmpM\nCpXZYqIN7WJJmK9HHni3+dfDuAyjK4+gOOmjkaCBAQKBgQDdl+NmJapHLmXS8+v+\nq/iw9rc8amDPEbB+/+FyG1rjoWrae7sFudmGWgvC5vz66115b7ga3vCx12WC0Svg\nM5QQSpTIywxVOt7m9DepRgsW8MaPesDNZg3h3WjUe7qThBCCtkjuKVBOcjagZqV5\nRQbHCQGcKXmkeTTIgIBQ1JPZsQKBgQDSmAXOaRe+ufjVGxem74LlSCZ6cJl5/AUn\nMfxWMtH1EZnpEhh2icXCh/EEpH1jf9H5HpATzoVB/QPWbLWDJf5sG62DWzVYQ62A\n5wzOKBdcLvbHK6Ts3bMki2X6cj+yhOHqMxjB1avbXcLoJBXKebmyDbs2A8tO0yXG\nz9TOgHPqPQKBgAJCNhModx/anTcVPWaPIi3LlfqLqwjxSTdCLG4ZUUfYsVogwLtC\nNbFk4ZHPAO0d0QoX1WyQsSte4q3+q8/RNsUjvXh+eVW1D+iSvK6BBEPrmFqGCckO\nLT4MH7FqwXAXfIOYkA29ZhAmod/oq+8cgQEuWlHZKmA+zAbvKF+qiwdBAoGAYlNW\niqwoyQU9uApBPdEgVXsddBd0oS7ZHRbKkViDDSBdsyOexmHHMu+Tya4fWUCJwf3S\nGV1YfJnsm8X/7a7knodBuU3xlzdqIABAy1SOq5zF3fJzu6A7jzmCsK99LBW9AUNA\nMOhZqD+bzBVlEzdIS2j72tlkqHYPckcBPjVdaaUCgYEAsVTWlGE4M3gG+lNulXy+\nRVGIYJt8xuCdfnhN2QyIh2SfaqcMH0tbOc8k2b3qfOawVdV3M+ENfjZhNobIuDTQ\nKzXBMUDn7/sA3gmFPuD2DD5Xr/Z6tzMl8ycj/pTNXwF7PRDGoPwoaESpAlp35lUY\n9DtGTbE7nD4ug3PM6xvB32Y=\n-----END PRIVATE KEY-----\n",
+  "client_email": "pixelassaultservlet@pixel-assault-577a7.iam.gserviceaccount.com",
+  "client_id": "102772146924219581355",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://accounts.google.com/o/oauth2/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/pixelassaultservlet%40pixel-assault-577a7.iam.gserviceaccount.com"
+}

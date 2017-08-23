@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.brothergamecompany.pixelassault.R;
@@ -142,6 +143,7 @@ public class SignIn implements GoogleApiClient.ConnectionCallbacks, GoogleApiCli
                             // Sign in success, update UI with the signed-in user's information
                             currentUser = mAuth.getCurrentUser();
                             signInSuccessful = true;
+                            Log.wtf("uid + dbListeningStarted",  currentUser.getUid());
                             GameLauncher.databaseReader.startDatabaseListening();
                         }
                     }

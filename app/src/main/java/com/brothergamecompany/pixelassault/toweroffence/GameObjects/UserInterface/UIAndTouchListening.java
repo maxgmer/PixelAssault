@@ -113,6 +113,7 @@ public class UIAndTouchListening {
         batcher.beginBatch(Assets.objects);
         coloredBatcher.beginBatch(Assets.objects);
         drawUI();
+        batcher.drawSprite(0,0,1,1,Assets.towerLevel1Bullet);
         batcher.endBatch();
         coloredBatcher.drawSprite(1, 1, 1, 1, Assets.arrowUp, 1, 0, 0, 0);
         coloredBatcher.endBatch();

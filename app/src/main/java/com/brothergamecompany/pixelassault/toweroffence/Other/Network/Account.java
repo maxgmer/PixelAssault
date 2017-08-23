@@ -14,7 +14,6 @@ import java.util.List;
  */
 
 public class Account {
-    //этот класс будет заполняться данными с сервера при запуске приложения
     public static int WORLD_WIDTH = 16;
     public static int WORLD_HEIGHT = 9;
     //нужно проверять сверяя с монетами, например убито 1000, а монет прибавилось 5 это странно, возможна покупка, перед
@@ -33,6 +32,7 @@ public class Account {
     public static List<Tower> towers = new ArrayList<>();
     public static int MOB_SPAWNER_X = 0;
     public static int MOB_SPAWNER_Y = 0;
+    public static String uid;
 
     public static Pair<Integer, Integer> getLastPathPos() {
         for (Tile tile : path) {

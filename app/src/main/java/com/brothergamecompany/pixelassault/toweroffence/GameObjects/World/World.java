@@ -29,7 +29,7 @@ public class World {
     public static Maelstrom maelstrom;
     public static List<Tile> path;
     private static boolean updateMonstersAndTowers = true;
-    private boolean worldInitialized = false;
+    public boolean worldInitialized = false;
     public static boolean firstTileOnMap;
     public static boolean lastTileOnMap;
     public static List<Tower> towers;
@@ -73,8 +73,11 @@ public class World {
                     Account.MOB_SPAWNER_X = tile.gridX;
                     Account.MOB_SPAWNER_Y = tile.gridY;
                 }
-                if (tile.type2 == Tile.TYPE_LAST_PATH_TILE)
+                if (tile.type2 == Tile.TYPE_LAST_PATH_TILE) {
                     lastTileOnMap = true;
+                    Account.MOB_SPAWNER_X = tile.gridX;
+                    Account.MOB_SPAWNER_Y = tile.gridY;
+                }
             }
         }
         fillWorldGrid();

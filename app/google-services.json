@@ -15,11 +15,11 @@
       },
       "oauth_client": [
         {
-          "client_id": "899536043339-bq1q91knduaqfeu42802eru4r309jr0a.apps.googleusercontent.com",
+          "client_id": "899536043339-pqpqrqhj3kqticcif67lk71nk51r1qs0.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.brothergamecompany.pixelassault",
-            "certificate_hash": "a8d17f65be358e02b2bacd7f4873fa218ebec373"
+            "certificate_hash": "8ad476e6c3c3089dcb9072df04b5870b7bf7f0b5"
           }
         },
         {

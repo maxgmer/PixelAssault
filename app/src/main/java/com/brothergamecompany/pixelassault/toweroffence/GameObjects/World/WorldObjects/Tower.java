@@ -31,10 +31,14 @@ public class Tower extends GameObject {
 
     public void changePos(int gridX, int gridY) {
         this.position.set(World.tileCenterCoords(gridX), World.tileCenterCoords(gridY));
+        this.gridX = gridX;
+        this.gridY = gridY;
     }
     public Tower(int gridX, int gridY, int towerLevel) {
         super(World.tileCenterCoords(gridX), World.tileCenterCoords(gridY), TOWER_WIDTH, TOWER_HEIGHT);
         this.towerLevel = towerLevel;
+        this.gridX = gridX;
+        this.gridY = gridY;
         attackSpeed = TowerStats.getTowerAttackSpd(towerLevel);
         towerDamage = TowerStats.getTowerDamage(towerLevel);
         attackDelay = 1 / attackSpeed;
@@ -51,6 +55,8 @@ public class Tower extends GameObject {
         targetChosen = false;
         towerBullets = new ArrayList<>();
         this.onMap = onMap;
+        this.gridX = gridX;
+        this.gridY = gridY;
     }
 
     public void update(float deltaTime) {

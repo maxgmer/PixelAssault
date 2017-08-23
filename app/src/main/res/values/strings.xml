@@ -13,4 +13,8 @@
     <string name="connection_failed">Authentication failed</string>
     <string name="authentication">Authentication</string>
     <string name="failed">failed</string>
+    <string name="networkProblems">Connection problem.</string>
+    <string name="confirmingMapBuilder">Confirming the base...</string>
+    <string name="confirmingMapBuilder1">Confirming</string>
+    <string name="confirmingMapBuilder2">the base...</string>
 </resources>

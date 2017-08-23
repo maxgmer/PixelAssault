@@ -13,6 +13,6 @@ public class TowerModel {
         onMap = false;
         gridX = 0;
         gridY = 0;
-        towerLevel = 1;
+        towerLevel = 0;
     }
 }

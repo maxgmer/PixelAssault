@@ -1,6 +1,14 @@
 apply plugin: 'com.android.application'
 
 android {
+    signingConfigs {
+        config {
+            keyAlias 'PixelAssaultKey'
+            keyPassword 'senovalitr'
+            storeFile file('C:/Users/maxgm_umv4xdu/Documents/Pixel Assault/keystorePixelAssault.jks')
+            storePassword '3719Koralpacankoralwtf1233719'
+        }
+    }
     compileSdkVersion 25
     buildToolsVersion "26.0.0"
     defaultConfig {
@@ -15,12 +23,19 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            debuggable true
+            signingConfig signingConfigs.config
         }
+    }
+    packagingOptions {
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/LICENSE-FIREBASE.txt'
+        exclude 'META-INF/NOTICE'
     }
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile fileTree(include: ['*.jar'], dir: 'libs')
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
@@ -28,6 +43,7 @@ dependencies {
     compile 'com.google.firebase:firebase-auth:11.0.2'
     compile 'com.google.android.gms:play-services-auth:11.0.2'
     compile 'com.google.firebase:firebase-database:11.0.2'
+    compile 'com.squareup.okhttp3:okhttp:3.4.1'
     testCompile 'junit:junit:4.12'
 }
 
