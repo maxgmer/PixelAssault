@@ -41,9 +41,6 @@ public class Account {
         }
         return null;
     }
-    static {
-
-    }
 
     public static int getMaxLvlExp() {
         return currentLevel * (currentLevel * 10);

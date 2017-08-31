@@ -26,8 +26,13 @@ public class AccountModel {
     public AccountModel() {
         path = new ArrayList<>();
         towers = new ArrayList<>();
-        path.add(new TileModel(3));
-        path.add(new TileModel(2));
-        towers.add(new TowerModel());
+        path.add(new TileModel(4, 4, true, 3));
+        path.add(new TileModel(6, 4, true, 2));
+        path.add(new TileModel(5, 4, true, 1));
+        towers.add(new TowerModel(5, 3, true, 0));
+    }
+
+    public int getMaxLvlExp() {
+        return currentLevel * (currentLevel * 10);
     }
 }

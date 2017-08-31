@@ -107,6 +107,7 @@ public class Assets {
     public static TextureRegion mapBuilderCellBackground;
     public static TextureRegion eraser;
     public static TextureRegion confirmButton;
+    public static TextureRegion confirmButtonPressed;
     public static Font font;
     public static TextureRegion helpButton;
     public static TextureRegion helpButtonPressed;
@@ -118,6 +119,7 @@ public class Assets {
     public static TextureRegion horizontalRectanglePane;
     public static TextureRegion yellowRectangleButton;
     public static TextureRegion refresh;
+
     public static void load(GLGame game) {
         objects = new Texture(game, "objectatlas.png");
         AssetsLoader.loadMonsters();
@@ -179,6 +181,7 @@ public class Assets {
         mapBuilderCellBackground = new TextureRegion(objects, 144, 224, 16, 16);
 
         confirmButton = new TextureRegion(objects, 64, 208, 16, 16);
+        confirmButtonPressed = new TextureRegion(objects, 64, 192, 16, 16);
         eraser = new TextureRegion(objects, 32, 192, 32, 32);
         greenMask = new TextureRegion(objects, 136, 272, 1, 1);
         redMask = new TextureRegion(objects, 136, 273, 1, 1);

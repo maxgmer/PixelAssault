@@ -32,6 +32,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.brothergamecompany.pixelassault.toweroffence.GameScreens.GameScreen.world;
+import static com.brothergamecompany.pixelassault.toweroffence.Other.Assets.Assets.confirmButtonPressed;
 import static com.brothergamecompany.pixelassault.toweroffence.Other.Assets.Assets.font;
 
 /**
@@ -39,6 +40,7 @@ import static com.brothergamecompany.pixelassault.toweroffence.Other.Assets.Asse
  */
 
 public class MapBuilder {
+
     public enum CellContent{
         Path, SpawnerPortal, Maelstrom, Towers
     }
@@ -79,6 +81,10 @@ public class MapBuilder {
     private Rectangle confirmButton = new Rectangle(1160, 600, 100, 100);
     private Rectangle eraser = new Rectangle(1160, 200, 100, 100);
     private Vector2 drawCoordsForChosenCell;
+
+    private boolean enabledEraserPressed = false;
+    private boolean eraserPressed = false;
+    private boolean confirmButtonPressed = false;
 
     public MapBuilder(Game game, Camera2D guiCam, Camera2D worldCam, SpriteBatcher batcher, SpriteBatcherColored coloredBatcher) {
         this.worldCam = worldCam;
@@ -171,12 +177,18 @@ public class MapBuilder {
             guiCam.touchToWorld(touchPoint);
             WorldRenderer.worldCam.touchToWorld(touchPoint2);
             if (OverlapTester.pointInRectangle(eraser, touchPoint)){
-                if (touchEvent.type == Input.TouchEvent.TOUCH_UP) {
-                    mapBuilderState = MAP_BUILDER_START_MENU;
-                    cellOrderNeedsUpdate = true;
-                    cellContentOrder.clear();
+                if (touchEvent.type == Input.TouchEvent.TOUCH_DOWN) {
+                    enabledEraserPressed = true;
                 }
-            }
+                if (enabledEraserPressed) {
+                    if (touchEvent.type == Input.TouchEvent.TOUCH_UP) {
+                        mapBuilderState = MAP_BUILDER_START_MENU;
+                        cellOrderNeedsUpdate = true;
+                        cellContentOrder.clear();
+                        enabledEraserPressed = false;
+                    }
+                }
+            } else enabledEraserPressed = false;
         }
 
         for (int i = 0; i < World.path.size(); i++) {
@@ -216,26 +228,41 @@ public class MapBuilder {
             guiCam.touchToWorld(touchPoint);
             WorldRenderer.worldCam.touchToWorld(touchPoint2);
 
-            if (OverlapTester.pointInRectangle(eraser, touchPoint)){
-                if (touchEvent.type == Input.TouchEvent.TOUCH_UP) {
-                    if (cellChosen == null) {
-                        mapBuilderState = MAP_BUILDER_ERASER_ENABLED;
-                    }
-                }
-            }
 
-            if (OverlapTester.pointInRectangle(confirmButton, touchPoint)) {
-                if (touchEvent.type == Input.TouchEvent.TOUCH_UP) {
-                    if (cellChosen == null) {
-                        if (World.reInitializeWorld()) {
-                            mapBuilderState = MAP_BUILDER_CONFIRM_REQUEST_SENT;
-                            GameLauncher.httpRequestSender.confirmMapBuilderBase();
-                        } else {
-                            NotificationManager.makeNotification(300, 600, ((Context) game).getResources().getString(R.string.mapBuilder_error_no_way_to_finish), 1, 1f, 1f, 0f, 20, 26);
+            if (OverlapTester.pointInRectangle(eraser, touchPoint)){
+                if (touchEvent.type == Input.TouchEvent.TOUCH_DOWN) {
+                    eraserPressed = true;
+                }
+                if (eraserPressed) {
+                    if (touchEvent.type == Input.TouchEvent.TOUCH_UP) {
+                        if (cellChosen == null) {
+                            mapBuilderState = MAP_BUILDER_ERASER_ENABLED;
+                            eraserPressed = false;
                         }
                     }
                 }
-            }
+            } else eraserPressed = false;
+
+
+            if (OverlapTester.pointInRectangle(confirmButton, touchPoint)) {
+                if (touchEvent.type == Input.TouchEvent.TOUCH_DOWN) {
+                    confirmButtonPressed = true;
+                }
+                if (confirmButtonPressed) {
+                    if (touchEvent.type == Input.TouchEvent.TOUCH_UP) {
+                        if (cellChosen == null) {
+                            if (World.reInitializeWorld()) {
+                                mapBuilderState = MAP_BUILDER_CONFIRM_REQUEST_SENT;
+                                GameLauncher.httpRequestSender.confirmMapBuilderBase();
+                            } else {
+                                NotificationManager.makeNotification(300, 600, ((Context) game).getResources().getString(R.string.mapBuilder_error_no_way_to_finish), 1, 1f, 1f, 0f, 20, 26);
+                            }
+                            confirmButtonPressed = false;
+                        }
+                    }
+                }
+            } else confirmButtonPressed = false;
+
 
             if (OverlapTester.pointInRectangle(cellOne, touchPoint)) {
                 if (touchEvent.type == Input.TouchEvent.TOUCH_DOWN) {
@@ -243,11 +270,13 @@ public class MapBuilder {
                         try {
                             cellChosen = cellContentOrder.get(0);
                             stateTime = 0;
-                        } catch (IndexOutOfBoundsException e) {
+                        }
+                        catch (IndexOutOfBoundsException e) {
                             cellChosen = null;
                         }
                 }
             }
+
 
             if (OverlapTester.pointInRectangle(cellTwo, touchPoint)) {
                 if (touchEvent.type == Input.TouchEvent.TOUCH_DOWN) {
@@ -261,6 +290,7 @@ public class MapBuilder {
                 }
             }
 
+
             if (OverlapTester.pointInRectangle(cellThree, touchPoint)) {
                 if (touchEvent.type == Input.TouchEvent.TOUCH_DOWN) {
                     if (cellChosen == null)
@@ -272,6 +302,7 @@ public class MapBuilder {
                         }
                 }
             }
+
 
             if (OverlapTester.pointInRectangle(cellFour, touchPoint)) {
                 if (touchEvent.type == Input.TouchEvent.TOUCH_DOWN) {
@@ -285,6 +316,7 @@ public class MapBuilder {
                 }
             }
 
+
             if (OverlapTester.pointInRectangle(cellFive, touchPoint)) {
                 if (touchEvent.type == Input.TouchEvent.TOUCH_DOWN) {
                     if (cellChosen == null)
@@ -297,6 +329,7 @@ public class MapBuilder {
                 }
             }
 
+
             if (OverlapTester.pointInRectangle(cellSix, touchPoint)) {
                 if (touchEvent.type == Input.TouchEvent.TOUCH_DOWN) {
                     if (cellChosen == null)
@@ -308,6 +341,7 @@ public class MapBuilder {
                         }
                 }
             }
+
 
             if (cellChosen != null) {
                 drawCoordsForChosenCell.set(touchPoint);
@@ -387,7 +421,7 @@ public class MapBuilder {
                     if (cellChosen == null) {
                         batcher.drawSprite(640, 100, 1280, 200, Assets.mapBuilderPaneOpen.getKeyFrame(stateTime, Animation.ANIMATION_NONLOOPING));
                         if (stateTime > Assets.mapBuilderPaneOpen.animationLength) {
-                            batcher.drawSprite(1210, 650, 100, 100, Assets.confirmButton);
+                            batcher.drawSprite(1210, 650, 100, 100, confirmButtonPressed ? Assets.confirmButtonPressed : Assets.confirmButton);
                             batcher.drawSprite(1210, 250, 100, 100, Assets.roundButton);
                             batcher.drawSprite(1210, 250, 85, 85, Assets.eraser);
                             int cellNumber = 0;

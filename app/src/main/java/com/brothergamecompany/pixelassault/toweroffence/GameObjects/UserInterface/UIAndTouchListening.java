@@ -2,6 +2,7 @@ package com.brothergamecompany.pixelassault.toweroffence.GameObjects.UserInterfa
 
 
 import android.content.Context;
+import android.util.Log;
 
 import com.brothergamecompany.pixelassault.R;
 import com.brothergamecompany.pixelassault.framework.Game;
@@ -19,11 +20,13 @@ import com.brothergamecompany.pixelassault.toweroffence.GameLauncher;
 import com.brothergamecompany.pixelassault.toweroffence.GameObjects.MapBuilder;
 import com.brothergamecompany.pixelassault.toweroffence.GameObjects.World.World;
 import com.brothergamecompany.pixelassault.toweroffence.GameObjects.World.WorldObjects.Monster;
+import com.brothergamecompany.pixelassault.toweroffence.GameObjects.World.WorldObjects.MonsterSpawner;
 import com.brothergamecompany.pixelassault.toweroffence.GameObjects.World.WorldRenderer;
 import com.brothergamecompany.pixelassault.toweroffence.GameScreens.GameScreen;
 import com.brothergamecompany.pixelassault.toweroffence.Other.Assets.Assets;
 import com.brothergamecompany.pixelassault.toweroffence.Other.Font;
 import com.brothergamecompany.pixelassault.toweroffence.Other.Network.Account;
+import com.brothergamecompany.pixelassault.toweroffence.Other.Network.BasicValuesSynchronizer;
 import com.brothergamecompany.pixelassault.toweroffence.Other.Network.SignIn;
 import com.brothergamecompany.pixelassault.toweroffence.Other.Notifications.NotificationManager;
 
@@ -77,7 +80,12 @@ public class UIAndTouchListening {
     private static boolean arrowDownButtonPressed = false;
     private static boolean mapBuilderButtonPressed = false;
     private static boolean shopButtonPressed = false;
+    private static boolean spawnPortalPressed = false;
+    private static boolean signInRefreshButton = false;
+    private static boolean accountStatsPressed = false;
+    private static boolean accountStatsAreaLeft = false;
     private Vector2 touchPoint2;
+
 
     //WorldListener worldListener; for the future sounds
     public UIAndTouchListening(GLGame glGame, GLGraphics glGraphics, SpriteBatcher batcher, SpriteBatcherColored coloredBatcher, World world, MapBuilder mapBuilder, Camera2D guiCam) {
@@ -149,13 +157,13 @@ public class UIAndTouchListening {
         font.drawColoredText(coloredBatcher, String.valueOf(Account.currentLevel), 930 - (String.valueOf(Account.currentLevel).length() * (17 + Font.spaceBetweenLetters)), 410, 0.3f, 0.3f, 0.3f, 1, 17, 22.1f);
 
         font.drawColoredText(coloredBatcher, (glGame).getResources().getString(R.string.account_stats_expToLvl), 370, 360, 0.3f, 0.3f, 0.3f, 1, 17, 22.1f);
-        font.drawColoredText(coloredBatcher, String.valueOf(Account.getMaxLvlExp() - Account.currentExp), 930 - (String.valueOf(Account.getMaxLvlExp() - Account.currentExp).length() * (17 + Font.spaceBetweenLetters)), 360, 0.3f, 0.3f, 0.3f, 1, 17, 22.1f);
+        font.drawColoredText(coloredBatcher, String.valueOf(Account.getMaxLvlExp() - (Account.currentExp + BasicValuesSynchronizer.totalExp)), 930 - (String.valueOf(Account.getMaxLvlExp() - Account.currentExp).length() * (17 + Font.spaceBetweenLetters)), 360, 0.3f, 0.3f, 0.3f, 1, 17, 22.1f);
 
         font.drawColoredText(coloredBatcher, (glGame).getResources().getString(R.string.account_stats_portalPower), 370, 310, 0.3f, 0.3f, 0.3f, 1, 17, 22.1f);
         font.drawColoredText(coloredBatcher, String.valueOf(Account.spawnPortalPower), 930 - (String.valueOf(Account.spawnPortalPower).length() * (17 + Font.spaceBetweenLetters)), 310, 0.3f, 0.3f, 0.3f, 1, 17, 22.1f);
 
         font.drawColoredText(coloredBatcher, (glGame).getResources().getString(R.string.account_stats_monstersKilled), 370, 260, 0.3f, 0.3f, 0.3f, 1, 17, 22.1f);
-        font.drawColoredText(coloredBatcher, String.valueOf(Account.totalMonstersKilled), 930 - (String.valueOf(Account.totalMonstersKilled).length() * (17 + Font.spaceBetweenLetters)), 260, 0.3f, 0.3f, 0.3f, 1, 17, 22.1f);
+        font.drawColoredText(coloredBatcher, String.valueOf(Account.totalMonstersKilled + BasicValuesSynchronizer.totalMonstersKilled), 930 - (String.valueOf(Account.totalMonstersKilled).length() * (17 + Font.spaceBetweenLetters)), 260, 0.3f, 0.3f, 0.3f, 1, 17, 22.1f);
     }
 
     private void drawMapBuilderGameState() {
@@ -191,8 +199,10 @@ public class UIAndTouchListening {
         batcher.drawSprite(80, 280, 80, 80, Assets.getMonsterAnimation(UIData.monsterLevel, Monster.STATE_ALIVE).getKeyFrame(monsterForButton.stateTime, Animation.ANIMATION_LOOPING));
         batcher.drawSprite(1210, 650, 75, 75, Assets.helpButton);
         batcher.drawSprite(640, 650, 400, 130, Assets.expBarBackground);
-        float percentageOfExpBarFilled = (float) Account.currentExp / (float)Account.getMaxLvlExp();
-        float widthOfExpBarFilling = 300 * percentageOfExpBarFilled;
+        float percentageOfExpBarFilled = (float) (Account.currentExp + BasicValuesSynchronizer.totalExp) / (float)Account.getMaxLvlExp();
+        float widthOfExpBarFilling = 0;
+        if (percentageOfExpBarFilled < 1) widthOfExpBarFilling = 300 * percentageOfExpBarFilled;
+        if (percentageOfExpBarFilled >= 1) widthOfExpBarFilling = 300;
         batcher.drawSprite(490 + widthOfExpBarFilling / 2, 650, widthOfExpBarFilling, 50, Assets.expBarFilling);
         batcher.drawSprite(640, 650, 320, 50, Assets.expBarFrame);
         if (GameLauncher.signIn.notifyUser) {
@@ -234,10 +244,16 @@ public class UIAndTouchListening {
             touchPoint.set(touchEvent.x, touchEvent.y);
             guiCam.touchToWorld(touchPoint);
             if (!(OverlapTester.pointInRectangle(accountStatsArea, touchPoint))) {
-                if (touchEvent.type == Input.TouchEvent.TOUCH_UP) {
-                    state = USUAL_GAME_STATE;
+                if (touchEvent.type == Input.TouchEvent.TOUCH_DOWN) {
+                    accountStatsAreaLeft = true;
                 }
-            }
+                if (accountStatsAreaLeft) {
+                    if (touchEvent.type == Input.TouchEvent.TOUCH_UP) {
+                        state = USUAL_GAME_STATE;
+                        accountStatsAreaLeft = false;
+                    }
+                }
+            } else accountStatsAreaLeft = false;
         }
     }
 
@@ -245,6 +261,7 @@ public class UIAndTouchListening {
         mapBuilder.update(deltaTime, touchEvents);
     }
     private void updateUsualGameState(float deltaTime, List<Input.TouchEvent> touchEvents) {
+        BasicValuesSynchronizer.update(deltaTime);
         monsterForButton.updateForButton(deltaTime);
         int len = touchEvents.size();
         for(int i = 0; i < len; i++) {
@@ -254,91 +271,133 @@ public class UIAndTouchListening {
             guiCam.touchToWorld(touchPoint);
             WorldRenderer.worldCam.touchToWorld(touchPoint2);
 
+
             if (GameLauncher.signIn.notifyUser) {
                 if (OverlapTester.pointInRectangle(refreshButtonAuthFailed, touchPoint)){
-                    if (touchEvent.type == Input.TouchEvent.TOUCH_UP) {
-                        //Assets.playSound(Assets.clickSound);
-                        GameLauncher.signIn.notifyUser = false;
-                        GameLauncher.signIn.signIn();
+                    if (touchEvent.type == Input.TouchEvent.TOUCH_DOWN) {
+                        signInRefreshButton = true;
                     }
-                }
-            }
-            if (OverlapTester.pointInRectangle(World.spawnerPortal.bounds, touchPoint2)) {
-                if (touchEvent.type == Input.TouchEvent.TOUCH_UP) {
-                    //Assets.playSound(Assets.portalSound);
-                    World.spawnerPortal.enabled = !World.spawnerPortal.enabled;
-                }
+                    if (signInRefreshButton) {
+                        if (touchEvent.type == Input.TouchEvent.TOUCH_UP) {
+                            //Assets.playSound(Assets.clickSound);
+                            GameLauncher.signIn.notifyUser = false;
+                            GameLauncher.signIn.signIn();
+                            signInRefreshButton = false;
+                        }
+                    }
+                } else signInRefreshButton = false;
             }
 
-            if (OverlapTester.pointInRectangle(mapBuilderButton, touchPoint)){
-                if (touchEvent.type == Input.TouchEvent.TOUCH_UP) {
-                    //Assets.playSound(Assets.clickSound);
-                    if (World.monstersSpawned.size() == 0) {
-                        state = MAP_BUILDER_GAME_STATE;
-                        GameScreen.mapBuilder.enterMapBuilder();
-                        mapBuilderButtonPressed = false;
-                    }
-                    else {
-                        NotificationManager.makeNotification(300, 550, (glGame).getResources().getString(R.string.map_builder_button_error_mobs_on_map_1), 0.7f, 1f, 1f, 0f, 20f, 26f);
-                        NotificationManager.makeNotification(200, 550, (glGame).getResources().getString(R.string.map_builder_button_error_mobs_on_map_2), 1.5f, 1f, 1f, 0f, 16f, 20.8f);
+
+            if (OverlapTester.pointInRectangle(World.spawnerPortal.bounds, touchPoint2)) {
+                if (touchEvent.type == Input.TouchEvent.TOUCH_DOWN) {
+                    spawnPortalPressed = true;
+                }
+                if (spawnPortalPressed) {
+                    if (touchEvent.type == Input.TouchEvent.TOUCH_UP) {
+                        //Assets.playSound(Assets.portalSound);
+                        World.spawnerPortal.enabled = !World.spawnerPortal.enabled;
+                        spawnPortalPressed = false;
                     }
                 }
-                else mapBuilderButtonPressed = true;
+            } else spawnPortalPressed = false;
+
+
+            if (OverlapTester.pointInRectangle(mapBuilderButton, touchPoint)){
+                if (touchEvent.type == Input.TouchEvent.TOUCH_DOWN) {
+                    mapBuilderButtonPressed = true;
+                }
+                if (mapBuilderButtonPressed) {
+                    if (touchEvent.type == Input.TouchEvent.TOUCH_UP) {
+                        //Assets.playSound(Assets.clickSound);
+                        if (World.monstersSpawned.size() == 0) {
+                            state = MAP_BUILDER_GAME_STATE;
+                            GameScreen.mapBuilder.enterMapBuilder();
+                            mapBuilderButtonPressed = false;
+                        } else {
+                            NotificationManager.makeNotification(300, 550, (glGame).getResources().getString(R.string.map_builder_button_error_mobs_on_map_1), 0.7f, 1f, 1f, 0f, 20f, 26f);
+                            NotificationManager.makeNotification(200, 550, (glGame).getResources().getString(R.string.map_builder_button_error_mobs_on_map_2), 1.5f, 1f, 1f, 0f, 16f, 20.8f);
+                        }
+                    }
+                }
             } else  mapBuilderButtonPressed = false;
 
 
             if (OverlapTester.pointInRectangle(spawnButton, touchPoint)) {
-                if (touchEvent.type != Input.TouchEvent.TOUCH_UP) {
+                if (touchEvent.type == Input.TouchEvent.TOUCH_DOWN) {
                     spawnButtonPressed = true;
-                } else {
-                    //Assets.playSound(Assets.clickSound);
-                    spawnButtonPressed = false;
-                    world.monsterSpawner.confirmSpawnLvl();
+                }
+                if (spawnButtonPressed) {
+                    if (touchEvent.type == Input.TouchEvent.TOUCH_UP) {
+                        //Assets.playSound(Assets.clickSound);
+                        spawnButtonPressed = false;
+                        world.monsterSpawner.confirmSpawnLvl();
+                    }
                 }
             }
             else spawnButtonPressed = false;
 
+
             if (OverlapTester.pointInRectangle(arrowUp, touchPoint)) {
-                if (touchEvent.type != Input.TouchEvent.TOUCH_UP) {
+                if (touchEvent.type == Input.TouchEvent.TOUCH_DOWN) {
                     arrowUpButtonPressed = true;
                 }
-                else {
-                    //Assets.playSound(Assets.clickSound);
-                    arrowUpButtonPressed = false;
-                    if (UIData.monsterLevel < UIData.maxMonsterLevel && UIData.monsterLevel >= UIData.minMonsterLevel)
-                        UIData.monsterLevel++;
+                if (arrowUpButtonPressed) {
+                    if (touchEvent.type == Input.TouchEvent.TOUCH_UP) {
+                        //Assets.playSound(Assets.clickSound);
+                        arrowUpButtonPressed = false;
+                        if (UIData.monsterLevel < UIData.maxMonsterLevel && UIData.monsterLevel >= UIData.minMonsterLevel)
+                            UIData.monsterLevel++;
+                    }
                 }
             }
             else arrowUpButtonPressed = false;
 
+
             if (OverlapTester.pointInRectangle(arrowDown, touchPoint)) {
-                if (touchEvent.type != Input.TouchEvent.TOUCH_UP) {
+                if (touchEvent.type == Input.TouchEvent.TOUCH_DOWN) {
                     arrowDownButtonPressed = true;
                 }
-                else {
-                    //Assets.playSound(Assets.clickSound);
-                    arrowDownButtonPressed = false;
-                    if (UIData.monsterLevel <= UIData.maxMonsterLevel && UIData.monsterLevel > UIData.minMonsterLevel)
-                        UIData.monsterLevel--;
+                if (arrowDownButtonPressed) {
+                    if (touchEvent.type == Input.TouchEvent.TOUCH_UP) {
+                        //Assets.playSound(Assets.clickSound);
+                        arrowDownButtonPressed = false;
+                        if (UIData.monsterLevel <= UIData.maxMonsterLevel && UIData.monsterLevel > UIData.minMonsterLevel)
+                            UIData.monsterLevel--;
+                    }
                 }
             }
             else arrowDownButtonPressed = false;
 
+
             if (OverlapTester.pointInRectangle(shopButton, touchPoint)) {
-                if (touchEvent.type == Input.TouchEvent.TOUCH_UP) {
-                    //Assets.playSound(Assets.clickSound);
-                    shopButtonPressed = false;
-                    shopState = SHOP_BUILDINGS_CHOSEN;
-                    state = SHOP_GAME_STATE;
-                } else shopButtonPressed = true;
-            } else  shopButtonPressed = false;
+                if (touchEvent.type == Input.TouchEvent.TOUCH_DOWN) {
+                    shopButtonPressed = true;
+                }
+                if (shopButtonPressed) {
+                    if (touchEvent.type == Input.TouchEvent.TOUCH_UP) {
+                        //Assets.playSound(Assets.clickSound);
+                        shopButtonPressed = false;
+                        shopState = SHOP_BUILDINGS_CHOSEN;
+                        state = SHOP_GAME_STATE;
+                    }
+                }
+            } else shopButtonPressed = false;
+
+
 
             if (OverlapTester.pointInRectangle(accountStats, touchPoint)) {
-                if (touchEvent.type == Input.TouchEvent.TOUCH_UP) {
-                    //Assets.playSound(Assets.clickSound;
-                    state = ACCOUNT_STATS_GAME_STATE;
+                if (touchEvent.type == Input.TouchEvent.TOUCH_DOWN) {
+                    accountStatsPressed = true;
                 }
-            }
+                if (accountStatsPressed) {
+                    if (touchEvent.type == Input.TouchEvent.TOUCH_UP) {
+                        //Assets.playSound(Assets.clickSound;
+                        state = ACCOUNT_STATS_GAME_STATE;
+                        accountStatsPressed = false;
+                    }
+                }
+            } else accountStatsPressed = false;
         }
     }
 

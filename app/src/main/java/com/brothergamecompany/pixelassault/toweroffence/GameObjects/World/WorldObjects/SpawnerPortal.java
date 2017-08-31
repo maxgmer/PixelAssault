@@ -23,6 +23,7 @@ public class SpawnerPortal extends GameObject {
         enabled = false;
     }
 
+
     public void update(float deltaTime) {
         stateTime += deltaTime;
         if (gridX != Account.MOB_SPAWNER_X || gridY != Account.MOB_SPAWNER_Y) {

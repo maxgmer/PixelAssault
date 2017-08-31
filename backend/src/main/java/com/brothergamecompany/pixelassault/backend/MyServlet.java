@@ -59,6 +59,9 @@ public class MyServlet extends HttpServlet {
             case MapBuilderConfirmation.servletPath:
                 MapBuilderConfirmation.doPost(req, resp, database);
                 break;
+            case SyncData.servletPath:
+                SyncData.doPost(req, resp, database);
+                break;
         }
     }
 }

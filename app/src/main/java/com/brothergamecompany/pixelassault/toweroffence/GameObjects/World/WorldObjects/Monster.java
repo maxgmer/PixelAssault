@@ -7,6 +7,9 @@ import com.brothergamecompany.pixelassault.toweroffence.GameObjects.ObjectsInfo.
 import com.brothergamecompany.pixelassault.toweroffence.GameObjects.World.World;
 import com.brothergamecompany.pixelassault.toweroffence.Other.Assets.Assets;
 import com.brothergamecompany.pixelassault.toweroffence.Other.Network.Account;
+import com.brothergamecompany.pixelassault.toweroffence.Other.Network.BasicValuesSynchronizer;
+
+import static com.brothergamecompany.pixelassault.toweroffence.GameObjects.ObjectsInfo.MonsterStats.getMonsterCoins;
 
 /**
  * Created by maxgm_umv4xdu on 04.06.2017.
@@ -104,7 +107,10 @@ public class Monster extends DynamicGameObject {
             return true;
         }
         if (state == STATE_KILLED && stateTime > deathAnimationLength){
-            Account.totalMonstersKilled++;
+            BasicValuesSynchronizer.totalMonstersKilled++;
+            BasicValuesSynchronizer.totalCoins += MonsterStats.getMonsterCoins(monsterLvl);
+            BasicValuesSynchronizer.totalExp += MonsterStats.getMonsterExp(monsterLvl);
+            BasicValuesSynchronizer.killedMobs.add(monsterLvl);
             return true;
         }
         return false;

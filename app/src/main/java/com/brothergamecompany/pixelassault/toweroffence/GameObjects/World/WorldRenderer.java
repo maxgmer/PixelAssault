@@ -60,7 +60,6 @@ public class WorldRenderer {
         renderPortals();
         if (drawMonsters)
             renderMonsters();
-
     }
 
     private void renderTowers() {

@@ -13,7 +13,7 @@ import static com.brothergamecompany.pixelassault.toweroffence.Other.Network.Acc
 
 public class MonsterSpawner {
     private float spawnTimer;
-    private int currentSpawnLvl;
+    public static int currentSpawnLvl;
     public MonsterHandler monsterHandler;
 
     public MonsterSpawner() {

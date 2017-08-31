@@ -1,6 +1,7 @@
 package com.brothergamecompany.pixelassault.toweroffence.GameObjects.World;
 
 import android.support.v4.util.Pair;
+import android.util.Log;
 
 import com.brothergamecompany.pixelassault.toweroffence.GameObjects.World.WorldObjects.MonsterSpawner;
 import com.brothergamecompany.pixelassault.toweroffence.GameObjects.World.WorldObjects.Maelstrom;
@@ -75,8 +76,6 @@ public class World {
                 }
                 if (tile.type2 == Tile.TYPE_LAST_PATH_TILE) {
                     lastTileOnMap = true;
-                    Account.MOB_SPAWNER_X = tile.gridX;
-                    Account.MOB_SPAWNER_Y = tile.gridY;
                 }
             }
         }
